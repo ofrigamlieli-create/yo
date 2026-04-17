@@ -1,11 +1,11 @@
 // Selection listener + debounce + dispatch for the "Smart trigger" feature.
-// No UI/widget, only dispatches `briefly:selection-qualified` when conditions match.
+// No UI/widget, only dispatches `yo:selection-qualified` when conditions match.
 
 (function () {
-  const DETECTOR = window.BrieflySelectionDetector;
+  const DETECTOR = window.YoSelectionDetector;
   if (!DETECTOR) return;
 
-  const DISPATCH_EVENT = "briefly:selection-qualified";
+  const DISPATCH_EVENT = "yo:selection-qualified";
   const DEBOUNCE_MS = 200;
 
   let debounceTimer = null;

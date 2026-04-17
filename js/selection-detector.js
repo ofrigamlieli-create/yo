@@ -108,7 +108,7 @@
   }
 
   // Expose helpers to `selection-listener.js` (loaded after this file).
-  window.BrieflySelectionDetector = {
+  window.YoSelectionDetector = {
     WORD_MIN,
     HARD_EXCLUDED_SELECTOR,
     asElement,

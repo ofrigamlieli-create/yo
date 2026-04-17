@@ -1,8 +1,8 @@
 {
   "manifest_version": 3,
-  "name": "Briefly",
+  "name": "Yō",
   "version": "0.0.1",
-  "description": "Instant TLDR summaries for selected text.",
+  "description": "Understand what you read — instant TLDRs, term explanations, and concept diagrams.",
   "background": {
     "service_worker": "background.js"
   },
