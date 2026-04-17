@@ -1,10 +1,10 @@
 # /peer-review
 
-You are preparing a peer review package for the Briefly Chrome extension feature that was just built.
+You are preparing a peer review package for the Yō Chrome extension feature that was just built.
 
 ## Instructions
 
-1. Read claude.md and the relevant plan from /plans/
+1. Read CLAUDE.md and the relevant plan from /plans/
 2. Summarize the feature that was built in plain language (3-5 sentences)
 3. List all files created or modified with a one-line description of each
 4. Highlight the key technical decisions made

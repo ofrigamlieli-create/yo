@@ -1,10 +1,10 @@
 # /explore
 
-You are running the exploration phase for a feature in the Briefly Chrome extension.
+You are running the exploration phase for a feature in the Yō Chrome extension.
 
 ## Instructions
 
-1. Read claude.md fully before asking anything
+1. Read CLAUDE.md fully before asking anything
 2. Read the relevant issue file from /issues/ if it exists
 3. Ask the user questions until you have ZERO open questions about:
    - Exact trigger conditions and edge cases

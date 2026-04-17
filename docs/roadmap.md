@@ -8,8 +8,8 @@
 
 | Component | Status | Notes |
 |-----------|--------|-------|
-| Manifest V3 setup | ✅ Working | v0.0.1, still named "Briefly" — rename pending |
-| Smart trigger (content zone detection) | ✅ Verified working | `js/selection-detector.js` + `js/selection-listener.js`. 20-word gate, DOM walk, link density <30%, dedup, fires `briefly:selection-qualified`. Background service worker is empty placeholder. |
+| Manifest V3 setup | ✅ Working | v0.0.1, named "Yō" |
+| Smart trigger (content zone detection) | ✅ Verified working | `js/selection-detector.js` + `js/selection-listener.js`. 20-word gate, DOM walk, link density <30%, dedup, fires `yo:selection-qualified`. Background service worker is empty placeholder. |
 | Small widget + TLDR | ❌ Not started | — |
 | Large widget + content expansion | ❌ Not started | — |
 | Term Explorer | ❌ Not started | — |
@@ -28,7 +28,7 @@ Build strictly in this order. Do not start the next phase until the current one 
 ### Phase 1 — Core TLDR (the product people will try)
 
 **1.1 — Repo audit + smart trigger verification** ✅ Complete
-Smart trigger verified working. See Current State table above and `CLAUDE.md` for full detail. Rename from "Briefly" → "Yō" (manifest, event name, module namespace) is deferred to Feature 1.2 branch.
+Smart trigger verified working. See Current State table above and `CLAUDE.md` for full detail.
 
 **1.2 — Small widget + TLDR generation**
 Grammarly-style floating widget appears on text selection (20+ words in a content zone). Click widget → instant TLDR. Three styles: Short / Bullets / Simple. Regenerate button. Widget disappears on click-outside or new selection.

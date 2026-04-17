@@ -1,10 +1,10 @@
 # /document
 
-You are documenting a completed feature for the Briefly Chrome extension.
+You are documenting a completed feature for the Yō Chrome extension.
 
 ## Instructions
 
-1. Read claude.md and the plan from /plans/
+1. Read CLAUDE.md and the plan from /plans/
 2. Review all files created or modified for this feature
 3. Create or update a documentation file in /docs/ named after the feature
 4. The documentation must include:

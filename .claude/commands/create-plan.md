@@ -4,7 +4,7 @@ You are creating an implementation plan for a Briefly Chrome extension feature.
 
 ## Instructions
 
-1. Read claude.md fully
+1. Read CLAUDE.md fully
 2. Read the relevant issue file from /issues/
 3. Create a step-by-step implementation plan that includes:
    - Feature summary (2-3 sentences)
@@ -18,7 +18,8 @@ You are creating an implementation plan for a Briefly Chrome extension feature.
 ## Rules
 - Each feature must be its own module — never mix concerns
 - Never add anything outside the scope of the current ticket
-- API calls always go through background service worker
-- API key always stored in chrome.storage
+- API calls go through Supabase Edge Functions — never direct from extension to Claude
+- Claude API key lives on the server — never in the extension, never in chrome.storage
+- User auth required before any API call — extension sends Supabase auth token
 - Do NOT execute anything until the user explicitly approves the plan
 - If the plan grows too large, flag it and suggest splitting into two tickets

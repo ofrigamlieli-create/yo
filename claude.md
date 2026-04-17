@@ -69,7 +69,7 @@ For detailed specs, read these when working on related features:
 
 | Component | Status | Notes |
 |-----------|--------|-------|
-| Manifest V3 setup | ✅ Working | v0.0.1, still named "Briefly" — rename pending |
+| Manifest V3 setup | ✅ Working | v0.0.1, named "Yō" |
 | Smart trigger | ✅ Verified working | See detail below |
 | Small widget + TLDR | ❌ Not started | — |
 | Large widget + content expansion | ❌ Not started | — |
@@ -79,6 +79,6 @@ For detailed specs, read these when working on related features:
 | Auth (Google sign-in) | ❌ Not started | — |
 | Usage tracking | ❌ Not started | — |
 
-**Smart trigger detail:** `js/selection-detector.js` + `js/selection-listener.js` load at `document_idle` on every page. On selection change, debounces 200ms → checks ≥20 words → walks DOM to find deepest ancestor that is not hard-excluded UI (header/footer/nav/aside/button/input/contentEditable) and has <30% link/button density → deduplicates → fires `briefly:selection-qualified` on `document`. Background service worker is an empty placeholder.
+**Smart trigger detail:** `js/selection-detector.js` + `js/selection-listener.js` load at `document_idle` on every page. On selection change, debounces 200ms → checks ≥20 words → walks DOM to find deepest ancestor that is not hard-excluded UI (header/footer/nav/aside/button/input/contentEditable) and has <30% link/button density → deduplicates → fires `yo:selection-qualified` on `document`. Background service worker is an empty placeholder.
 
-**Rename pending before Feature 1.2:** `manifest.json` name ("Briefly"), extension ID references, and `briefly:selection-qualified` event name all need updating to Yō. Code currently lives in `js/` (not `src/` as spec'd in CLAUDE.md) — migration deferred to Feature 1.2 branch.
+**Note:** Code currently lives in `js/` (not `src/` as spec'd above) — migration deferred to Feature 1.2 branch.

@@ -1,10 +1,10 @@
 # /create-issue
 
-You are helping create a Linear issue for the Briefly Chrome extension project.
+You are helping create a Linear issue for the Yō Chrome extension project.
 
 ## Instructions
 
-1. Read claude.md to understand the full product context
+1. Read CLAUDE.md to understand the full product context
 2. Ask the user to describe the feature or bug in one sentence
 3. Ask 2-3 clarifying questions to understand scope, acceptance criteria, and edge cases
 4. Draft a Linear issue with:

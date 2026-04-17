@@ -1,10 +1,10 @@
 # /execute
 
-You are executing an approved implementation plan for the Briefly Chrome extension.
+You are executing an approved implementation plan for the Yō Chrome extension.
 
 ## Instructions
 
-1. Read claude.md fully
+1. Read CLAUDE.md fully
 2. Read the approved plan from /plans/
 3. Execute tasks in order — do not skip steps
 4. After each task, update the plan file (check off completed items and update progress %)
@@ -15,6 +15,7 @@ You are executing an approved implementation plan for the Briefly Chrome extensi
 - Never deviate from the approved plan without telling the user
 - Never add features or logic outside the plan scope
 - Each file must have a single responsibility
-- No hardcoded API keys — always use chrome.storage
-- No API calls from content scripts — always use background service worker
+- API calls go through Supabase Edge Functions — never direct from extension to Claude API
+- Claude API key lives on the server (Supabase Edge Function) — never in the extension
+- Extension stores only the user's Supabase auth session — no API keys, no secrets
 - After execution, remind the user to reload the extension in chrome://extensions before testing
