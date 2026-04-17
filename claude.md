@@ -1,103 +1,84 @@
-# Briefly - Project Constitution
+# Yō — Project Constitution
 
-## What is Briefly
-A Chrome browser extension that provides instant TLDR summaries of any selected text on the web. Inspired by Grammarly's floating widget UX — minimal, instant, non-intrusive.
+## What is Yō
+A Chrome extension that helps people understand what they read on the web. Select any text → get an instant TLDR. Discover and explore professional terms in context. Visualize how ideas and concepts connect through interactive diagrams. Grammarly-style UX — minimal, instant, non-intrusive.
 
-## My Role
-I am the product owner. I own the problem, the user experience, and product priorities. You are my CTO and technical co-founder. You own all technical decisions, architecture, and code quality.
+## Roles
+- **Product owner (me):** I own the problem, user experience, and product priorities. I am non-technical — all explanations, PR descriptions, and handoff summaries must be written in plain English.
+- **CTO (you):** You own all technical decisions, architecture, and code quality.
 
-## How I Want You to Behave
+## How You Must Behave
 - Push back when necessary. Do not be a people pleaser.
 - Ask clarifying questions before building anything.
 - Default to high-level plans first, then concrete next steps.
-- Keep responses concise and use bullet points.
 - When uncertain, ask — never guess.
 - Highlight risks clearly.
-- Each feature must be its own clean module. Never mix concerns.
 - Never add anything outside the scope of the current ticket.
-
----
-
-## The User Journey
-
-1. User opens Chrome and navigates to any website (Twitter, LinkedIn, Reddit, articles, etc.)
-2. User sees a post, text, or article they want to summarize
-3. User double-clicks, triple-clicks, or selects a portion of text (20+ words)
-4. A **small Grammarly-style widget** appears instantly near the selection
-5. User clicks the small widget → Briefly immediately generates a TLDR of the selected text
-6. User can switch between 3 styles: Short / Bullets / Simple
-7. User can regenerate at any time
-8. If the user clicks the **larger widget**, Briefly expands and captures the full content zone:
-   - Highlights the entire content area in one color
-   - Highlights individual paragraphs in another color
-   - User clicks either the full text or a paragraph
-   - Briefly generates a TLDR for the chosen scope
-9. Session ends when user clicks outside the widget or selects new text → new session begins
-
----
-
-## TLDR Styles
-- **Short** — 1 concise sentence
-- **Bullets** — 3 to 5 key takeaway bullet points
-- **Simple** — plain language explanation, easy for anyone to understand
-
-User can set their default style in the Settings/Preferences tab. Style preference persists across sessions.
-
----
-
-## Smart Trigger Rules
-Briefly fires ONLY when:
-- The selected text is 20 or more words
-- The selection is inside a meaningful content zone: posts, articles, paragraphs, knowledge base content
-- Content zone detection: any element with high text density (20+ words, low button/link ratio) inside known containers — article, main, [role="main"], or high text-to-element ratio divs
-
-Briefly does NOT fire on:
-- UI elements (nav bars, buttons, headers, footers, sidebars)
-- Fewer than 20 words selected
-- Form fields, inputs, or editable areas
-
----
-
-## Settings & Preferences
-Accessible from the widget (similar to Grammarly's settings icon):
-- Default TLDR style (Short / Bullets / Simple)
-- Turn off Briefly on specific sites
-- Turn off Briefly temporarily (1 hour)
-- API key management
-
----
-
-## Feature Build Order
-Build strictly in this order. Do not start the next feature until the current one is complete, reviewed, and documented.
-
-1. **Smart trigger** — content zone detection, 20-word minimum, fires correctly on posts/articles only
-2. **Small widget + TLDR** — Grammarly-style floating widget, instant TLDR, 3 styles, regenerate
-3. **Large widget + content zone expansion** — full text vs paragraph selection, color-coded highlights
-4. **Settings & preferences** — default style, site management, API key
-5. **Explain terms** — contextual term explanations, same infrastructure as TLDR
-
----
+- Keep responses concise.
 
 ## Tech Stack
-To be decided during the first exploration session. Default to Chrome extension Manifest V3.
+- **Extension:** Chrome Manifest V3, plain JavaScript
+- **Backend:** Supabase (Postgres, Auth, Edge Functions)
+- **Auth:** Google sign-in via Supabase Auth
+- **AI:** Claude API called from Supabase Edge Functions only — API key never leaves the server, never in the extension, never in chrome.storage
+- **Diagrams:** Claude extracts structured data, frontend renders with a JS diagram library (D3, Mermaid, or React Flow — TBD)
+- **Payments:** Stripe (future — not implemented yet)
+- **Model:** Free trial, then paid subscription
 
 ## Architecture Rules
-- Each feature is a separate module
-- API calls always go through background service worker — never from content script directly
-- API key always stored in chrome.storage — never hardcoded or exposed
-- No scope creep — each ticket builds exactly one feature
+- Each feature is a separate module. Never mix concerns.
+- All AI calls go through Supabase Edge Functions — never direct from extension to Claude.
+- User auth required before any API call. Extension sends Supabase auth token with every request.
+- Usage tracking: every request logged per user (user_id, timestamp, feature used, word count).
+- Extension stores only the Supabase auth session — no API keys, no secrets.
+- Backend is designed to serve multiple clients (future: mobile app, desktop app).
+
+## Non-Negotiables
+- Never push directly to main. Always open a PR via GitHub.
+- Every feature ships on its own branch (worktree).
+- No scope creep — each ticket builds exactly one feature.
+- Every PR description must be readable by a non-technical person.
+- Before merging: extension loads in Chrome, feature works on at least 3 real sites, no console errors, API key never visible in DevTools Network tab.
 
 ## Project Structure
-- /.cursor/rules/ — all slash commands
-- /plans — feature plan markdown files (one per feature)
-- /docs — documentation updated after every completed feature
-- /issues — Linear issue drafts
-- claude.md — this file (project constitution, read every session)
+```
+yo/
+├── CLAUDE.md              ← this file (always loaded)
+├── docs/
+│   ├── roadmap.md         ← build order + priorities
+│   ├── product-spec.md    ← detailed UX spec + feature definitions
+│   └── prds/              ← one file per completed feature
+├── plans/                 ← feature plan markdown files (one per feature)
+├── src/                   ← extension source code
+├── supabase/              ← Edge Functions + DB schema
+└── manifest.json          ← Chrome extension manifest
+```
+> **Note:** Some folders above may not exist yet. Create them as needed when a feature requires it.
 
-## Linear
-- Team: Briefly
-- Team ID: 0be4b04a-3020-46fb-88f0-489f6d88c33a
-- MCP connected via OAuth (30 tools enabled)
+## Integrations
+- **Linear:** Team "Yō" — MCP connected via OAuth
+- **GitHub:** github.com/ofrigamlieli-create/briefly (repo name may need renaming)
 
-## GitHub
-- Repo: https://github.com/ofrigamlieli-create/briefly
+## Reference Docs
+For detailed specs, read these when working on related features:
+- `docs/product-spec.md` — full user journey, trigger rules, TLDR styles, term explanations, diagrams spec
+- `docs/roadmap.md` — current state, build order, what's next, what's deferred
+
+## Current State
+**Audited April 2026.**
+
+| Component | Status | Notes |
+|-----------|--------|-------|
+| Manifest V3 setup | ✅ Working | v0.0.1, still named "Briefly" — rename pending |
+| Smart trigger | ✅ Verified working | See detail below |
+| Small widget + TLDR | ❌ Not started | — |
+| Large widget + content expansion | ❌ Not started | — |
+| Term Explorer | ❌ Not started | — |
+| Visual Explainer (diagrams) | ❌ Not started | — |
+| Supabase backend | ❌ Not started | — |
+| Auth (Google sign-in) | ❌ Not started | — |
+| Usage tracking | ❌ Not started | — |
+
+**Smart trigger detail:** `js/selection-detector.js` + `js/selection-listener.js` load at `document_idle` on every page. On selection change, debounces 200ms → checks ≥20 words → walks DOM to find deepest ancestor that is not hard-excluded UI (header/footer/nav/aside/button/input/contentEditable) and has <30% link/button density → deduplicates → fires `briefly:selection-qualified` on `document`. Background service worker is an empty placeholder.
+
+**Rename pending before Feature 1.2:** `manifest.json` name ("Briefly"), extension ID references, and `briefly:selection-qualified` event name all need updating to Yō. Code currently lives in `js/` (not `src/` as spec'd in CLAUDE.md) — migration deferred to Feature 1.2 branch.
