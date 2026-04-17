@@ -57,7 +57,7 @@ yo/
 
 ## Integrations
 - **Linear:** Team "Yō" — MCP connected via OAuth
-- **GitHub:** github.com/ofrigamlieli-create/briefly (repo name may need renaming)
+- **GitHub:** github.com/ofrigamlieli-create/yo
 
 ## Reference Docs
 For detailed specs, read these when working on related features:
