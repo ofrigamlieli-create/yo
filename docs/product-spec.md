@@ -1,11 +1,11 @@
-# Yō — Product Spec
+# Kani — Product Spec
 
 > This is the detailed product specification. It is NOT loaded every session. Read this when working on specific features. The always-loaded summary lives in `CLAUDE.md`.
 
 ---
 
 ## Product Vision
-Yō is a reading comprehension layer for the web. It helps anyone understand what they're reading — faster and deeper. Three capabilities, one seamless experience:
+Kani is a reading comprehension layer for the web. It helps anyone understand what they're reading — faster and deeper. Three capabilities, one seamless experience:
 1. **TLDR** — instant summaries of selected text
 2. **Term Explorer** — detect and explain professional/technical terms in context
 3. **Visual Explainer** — interactive diagrams showing how concepts in the text relate to each other
@@ -20,20 +20,20 @@ All three surface through a Grammarly-style widget that appears contextually. Mi
 1. User navigates to any website (Twitter, LinkedIn, Reddit, articles, knowledge bases, etc.)
 2. User selects text (double-click, triple-click, or drag-select) — minimum 20 words
 3. A **small floating widget** appears near the selection (Grammarly-style)
-4. User clicks the widget → Yō generates a TLDR immediately
+4. User clicks the widget → Kani generates a TLDR immediately
 5. User can switch between 3 TLDR styles: **Short / Bullets / Simple**
 6. User can regenerate at any time
 
 ### Large Widget → Content Zone Expansion
-7. If the user clicks the **expand button** on the widget, Yō expands and scans the full content zone:
+7. If the user clicks the **expand button** on the widget, Kani expands and scans the full content zone:
    - Highlights the entire content area in one color
    - Highlights individual paragraphs in a different color
 8. User clicks either the full highlighted area or a single paragraph
-9. Yō generates a TLDR for the chosen scope
+9. Kani generates a TLDR for the chosen scope
 10. Session ends when user clicks outside the widget or selects new text (new session begins)
 
 ### Term Explorer (within any TLDR or selected text)
-11. When a TLDR is generated, Yō auto-detects professional/technical terms and highlights them within the TLDR text
+11. When a TLDR is generated, Kani auto-detects professional/technical terms and highlights them within the TLDR text
 12. User can also manually select any term in the original page text or in the TLDR
 13. Clicking/tapping a highlighted term shows a contextual explanation — what the term means **in the context of the surrounding text**, not a generic dictionary definition
 14. Term explanations appear inline (tooltip or expandable section within the widget)
@@ -59,12 +59,12 @@ User can set a default style in Settings. Preference persists across sessions.
 
 ## Smart Trigger Rules
 
-### Yō fires ONLY when:
+### Kani fires ONLY when:
 - Selected text is 20 or more words
 - Selection is inside a meaningful content zone: posts, articles, paragraphs, knowledge base content
 - Content zone detection: any element with high text density (20+ words, low button/link ratio) inside known containers — `article`, `main`, `[role="main"]`, or high text-to-element ratio divs
 
-### Yō does NOT fire on:
+### Kani does NOT fire on:
 - UI elements (nav bars, buttons, headers, footers, sidebars)
 - Fewer than 20 words selected
 - Form fields, inputs, or editable areas
@@ -74,8 +74,8 @@ User can set a default style in Settings. Preference persists across sessions.
 ## Settings & Preferences
 Accessible from the widget (similar to Grammarly's settings icon):
 - Default TLDR style (Short / Bullets / Simple)
-- Turn off Yō on specific sites (site blocklist)
-- Turn off Yō temporarily (1 hour)
+- Turn off Kani on specific sites (site blocklist)
+- Turn off Kani temporarily (1 hour)
 - Account management (sign in / sign out)
 - Subscription management (future — Stripe integration)
 

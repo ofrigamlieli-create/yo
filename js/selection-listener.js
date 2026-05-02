@@ -1,11 +1,11 @@
 // Selection listener + debounce + dispatch for the "Smart trigger" feature.
-// No UI/widget, only dispatches `yo:selection-qualified` when conditions match.
+// No UI/widget, only dispatches `kani:selection-qualified` when conditions match.
 
 (function () {
-  const DETECTOR = window.YoSelectionDetector;
+  const DETECTOR = window.KaniSelectionDetector;
   if (!DETECTOR) return;
 
-  const DISPATCH_EVENT = "yo:selection-qualified";
+  const DISPATCH_EVENT = "kani:selection-qualified";
   const DEBOUNCE_MS = 200;
 
   let debounceTimer = null;

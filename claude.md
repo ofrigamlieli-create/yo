@@ -1,6 +1,6 @@
-# Yō — Project Constitution
+# Kani — Project Constitution
 
-## What is Yō
+## What is Kani
 A Chrome extension that helps people understand what they read on the web. Select any text → get an instant TLDR. Discover and explore professional terms in context. Visualize how ideas and concepts connect through interactive diagrams. Grammarly-style UX — minimal, instant, non-intrusive.
 
 ## Roles
@@ -56,7 +56,7 @@ yo/
 > **Note:** Some folders above may not exist yet. Create them as needed when a feature requires it.
 
 ## Integrations
-- **Linear:** Team "Yō" — MCP connected via OAuth
+- **Linear:** Team "Kani" — MCP connected via OAuth
 - **GitHub:** github.com/ofrigamlieli-create/yo
 
 ## Reference Docs
@@ -69,7 +69,7 @@ For detailed specs, read these when working on related features:
 
 | Component | Status | Notes |
 |-----------|--------|-------|
-| Manifest V3 setup | ✅ Working | v0.0.1, named "Yō" |
+| Manifest V3 setup | ✅ Working | v0.0.1, named "Kani" |
 | Smart trigger | ✅ Verified working | See detail below |
 | Small widget + TLDR | ❌ Not started | — |
 | Large widget + content expansion | ❌ Not started | — |
@@ -79,6 +79,6 @@ For detailed specs, read these when working on related features:
 | Auth (Google sign-in) | ❌ Not started | — |
 | Usage tracking | ❌ Not started | — |
 
-**Smart trigger detail:** `js/selection-detector.js` + `js/selection-listener.js` load at `document_idle` on every page. On selection change, debounces 200ms → checks ≥20 words → walks DOM to find deepest ancestor that is not hard-excluded UI (header/footer/nav/aside/button/input/contentEditable) and has <30% link/button density → deduplicates → fires `yo:selection-qualified` on `document`. Background service worker is an empty placeholder.
+**Smart trigger detail:** `js/selection-detector.js` + `js/selection-listener.js` load at `document_idle` on every page. On selection change, debounces 200ms → checks ≥20 words → walks DOM to find deepest ancestor that is not hard-excluded UI (header/footer/nav/aside/button/input/contentEditable) and has <30% link/button density → deduplicates → fires `kani:selection-qualified` on `document`. Background service worker is an empty placeholder.
 
 **Note:** Code currently lives in `js/` (not `src/` as spec'd above) — migration deferred to Feature 1.2 branch.
