@@ -1,6 +1,6 @@
 # /explore
 
-You are running the exploration phase for a feature in the Yō Chrome extension.
+You are running the exploration phase for a feature in the Kani Chrome extension.
 
 ## Instructions
 

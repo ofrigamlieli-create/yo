@@ -33,7 +33,7 @@ What it does not do:
   - Placeholder service worker for later features.
 - `js/selection-detector.js`
   - Selection rules: word counting, hard exclusions, content-zone qualification.
-  - Exposes helpers as `window.YoSelectionDetector`.
+  - Exposes helpers as `window.KaniSelectionDetector`.
 - `js/selection-listener.js`
   - Listens to `selectionchange`, debounces checks (200ms), deduplicates repeats, dispatches the custom event.
 

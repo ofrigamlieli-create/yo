@@ -1,6 +1,6 @@
 # /document
 
-You are documenting a completed feature for the Yō Chrome extension.
+You are documenting a completed feature for the Kani Chrome extension.
 
 ## Instructions
 

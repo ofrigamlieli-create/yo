@@ -1,6 +1,6 @@
 # /create-issue
 
-You are helping create a Linear issue for the Yō Chrome extension project.
+You are helping create a Linear issue for the Kani Chrome extension project.
 
 ## Instructions
 
