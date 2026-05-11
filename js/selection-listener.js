@@ -70,7 +70,9 @@
       }
 
       const wordCount = DETECTOR.countWords(selectionText);
-      if (wordCount < DETECTOR.WORD_MIN) return;
+      if (wordCount < DETECTOR.WORD_MIN || wordCount > DETECTOR.WORD_MAX) return;
+
+      if (DETECTOR.selectionSpansMedia(range)) return;
 
       const containerElement = DETECTOR.findDeepestContentZone(range);
       if (!containerElement) return;

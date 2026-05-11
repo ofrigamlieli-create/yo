@@ -101,11 +101,25 @@
     document.removeEventListener('keydown', onDocKeydown, true);
   }
 
+  // ── Scroll dismiss ───────────────────────────────────────────
+
+  function onScrollDismiss() {
+    if (state === 'TRIGGER') dismiss();
+  }
+
+  function registerScrollDismiss() {
+    window.addEventListener('scroll', onScrollDismiss, { capture: true, passive: true });
+  }
+
+  function unregisterScrollDismiss() {
+    window.removeEventListener('scroll', onScrollDismiss, { capture: true });
+  }
+
   // ── Positioning ──────────────────────────────────────────────
 
   function positionTrigger(rect) {
     const vw = window.innerWidth;
-    const height = Math.max(rect.height, 24);
+    const height = Math.min(Math.max(rect.height, 24), window.innerHeight * 0.4);
 
     triggerHostEl.style.top = rect.top + 'px';
     triggerHostEl.style.left = rect.left + 'px';
@@ -393,6 +407,7 @@
 
     triggerShadow.getElementById('kani-rail-btn').addEventListener('click', showTldr);
 
+    registerScrollDismiss();
     registerDismissListeners();
   }
 
@@ -401,6 +416,7 @@
     currentTab = currentTab || 'short';
     tldrCache = null;
 
+    unregisterScrollDismiss();
     triggerHostEl.style.display = 'none';
 
     chrome.runtime.sendMessage({ type: 'GET_AUTH_STATE' }, ({ isSignedIn }) => {
@@ -541,6 +557,7 @@
 
   function dismiss() {
     state = 'IDLE';
+    unregisterScrollDismiss();
     triggerHostEl.style.display = 'none';
     tldrHostEl.style.display = 'none';
     unregisterDismissListeners();
