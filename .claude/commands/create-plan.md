@@ -1,6 +1,6 @@
 # /create-plan
 
-You are creating an implementation plan for a Briefly Chrome extension feature.
+You are creating an implementation plan for a Kani Chrome extension feature.
 
 ## Instructions
 

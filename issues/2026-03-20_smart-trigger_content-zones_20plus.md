@@ -1,18 +1,18 @@
 ## Title
-Smart trigger: Fire Yō only for 20+ word selections inside meaningful content zones
+Smart trigger: Fire Kani only for 20+ word selections inside meaningful content zones
 
 ## TL;DR
-Add detection logic so Yō triggers only when the user selects 20+ words inside meaningful content (posts/articles/knowledge base), and remains completely silent everywhere else.
+Add detection logic so Kani triggers only when the user selects 20+ words inside meaningful content (posts/articles/knowledge base), and remains completely silent everywhere else.
 
 ## Current state vs expected state
-- Current state: Trigger logic does not exist yet; Yō should not fire at all.
-- Expected state: Yō triggers only when all trigger conditions are met: (1) selection is 20+ words, and (2) selection is inside a meaningful content zone (posts, articles, Reddit threads, or knowledge base content as detected by heuristics).
+- Current state: Trigger logic does not exist yet; Kani should not fire at all.
+- Expected state: Kani triggers only when all trigger conditions are met: (1) selection is 20+ words, and (2) selection is inside a meaningful content zone (posts, articles, Reddit threads, or knowledge base content as detected by heuristics).
 
 ## Acceptance criteria
-- Selecting 20+ words inside a `LinkedIn` post, `article`, or `Reddit` thread triggers Yō.
-- Selecting 20+ words inside a `nav bar`, `header`, `footer`, `sidebar`, or `button` does NOT trigger Yō.
-- Selecting fewer than 20 words anywhere does NOT trigger Yō.
-- Selecting text inside a `form field` or `input` does NOT trigger Yō.
+- Selecting 20+ words inside a `LinkedIn` post, `article`, or `Reddit` thread triggers Kani.
+- Selecting 20+ words inside a `nav bar`, `header`, `footer`, `sidebar`, or `button` does NOT trigger Kani.
+- Selecting fewer than 20 words anywhere does NOT trigger Kani.
+- Selecting text inside a `form field` or `input` does NOT trigger Kani.
 - "Exactly 20 words" is treated as inclusive (it fires).
 
 ## Scope / non-goals

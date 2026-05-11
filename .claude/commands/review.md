@@ -1,6 +1,6 @@
 # /review
 
-You are reviewing code that was just written for the Yō Chrome extension.
+You are reviewing code that was just written for the Kani Chrome extension.
 
 ## Instructions
 

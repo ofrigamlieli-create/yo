@@ -3,6 +3,7 @@
 
 (function () {
   const WORD_MIN = 20;
+  const WORD_MAX = 400;
   const HARD_EXCLUDED_SELECTOR =
     'header,footer,nav,aside,button,input,select,[role="navigation"],textarea,[role="textbox"]';
 
@@ -52,7 +53,8 @@
   function selectionWordCountGate(range) {
     if (!range) return false;
     const selectionText = range.toString();
-    return countWords(selectionText) >= WORD_MIN;
+    const count = countWords(selectionText);
+    return count >= WORD_MIN && count <= WORD_MAX;
   }
 
   /**
@@ -71,28 +73,43 @@
     const startNode = range.startContainer;
     const endNode = range.endContainer;
 
-    // Hard boundary: both selection boundaries must not be in excluded UI.
     if (isInHardExcludedUI(startNode) || isInHardExcludedUI(endNode)) return null;
+
+    const rawWords = countWords(range.toString());
 
     let candidate = asElement(startNode);
     if (!candidate) return null;
 
-    // Walk deepest-first through ancestors.
     while (candidate) {
+      // Guard B: never use body/html as content zone.
+      const tag = candidate.tagName?.toLowerCase();
+      if (tag === 'body' || tag === 'html') break;
+
       const startInside = candidate.contains(startNode);
       const endInside = candidate.contains(endNode);
 
       if (startInside && endInside) {
-        // Exclude any candidate that is inside excluded UI as well.
         if (!isInHardExcludedUI(candidate)) {
+          // Guard C: container must not be taller than 2.5× the viewport.
+          const cRect = candidate.getBoundingClientRect();
+          if (cRect.height > window.innerHeight * 2.5) {
+            candidate = candidate.parentElement;
+            continue;
+          }
+
           const text = (candidate.innerText || candidate.textContent || "").trim();
           const wordCount = countWords(text);
 
           if (wordCount >= WORD_MIN) {
+            // Guard D: selection must cover ≥ 10% of the container's text.
+            if (rawWords / wordCount < 0.10) {
+              candidate = candidate.parentElement;
+              continue;
+            }
+
             const linkButtonCount = candidate.querySelectorAll("a,button").length;
             const totalElementCount = candidate.querySelectorAll("*").length;
 
-            // Guard: if something is weird and returns 0, treat as non-qualifying.
             if (totalElementCount > 0) {
               const ratio = linkButtonCount / totalElementCount;
               if (ratio < 0.30) return candidate;
@@ -107,15 +124,32 @@
     return null;
   }
 
+  /**
+   * Returns true when the selection range visually spans over a block media
+   * element (img, video, figure). Clones range contents so it never touches
+   * the live DOM.
+   */
+  function selectionSpansMedia(range) {
+    if (!range) return false;
+    try {
+      const fragment = range.cloneContents();
+      return !!fragment.querySelector('img, video, figure');
+    } catch {
+      return false;
+    }
+  }
+
   // Expose helpers to `selection-listener.js` (loaded after this file).
-  window.YoSelectionDetector = {
+  window.KaniSelectionDetector = {
     WORD_MIN,
+    WORD_MAX,
     HARD_EXCLUDED_SELECTOR,
     asElement,
     isInHardExcludedUI,
     countWords,
     getSelectionRange,
     selectionWordCountGate,
+    selectionSpansMedia,
     findDeepestContentZone
   };
 })();

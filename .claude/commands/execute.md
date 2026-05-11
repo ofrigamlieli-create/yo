@@ -1,6 +1,6 @@
 # /execute
 
-You are executing an approved implementation plan for the Yō Chrome extension.
+You are executing an approved implementation plan for the Kani Chrome extension.
 
 ## Instructions
 

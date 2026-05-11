@@ -1,6 +1,6 @@
 # /peer-review
 
-You are preparing a peer review package for the Yō Chrome extension feature that was just built.
+You are preparing a peer review package for the Kani Chrome extension feature that was just built.
 
 ## Instructions
 

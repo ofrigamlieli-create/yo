@@ -1,6 +1,6 @@
-# Yō — Project Constitution
+# Kani — Project Constitution
 
-## What is Yō
+## What is Kani
 A Chrome extension that helps people understand what they read on the web. Select any text → get an instant TLDR. Discover and explore professional terms in context. Visualize how ideas and concepts connect through interactive diagrams. Grammarly-style UX — minimal, instant, non-intrusive.
 
 ## Roles
@@ -56,7 +56,7 @@ yo/
 > **Note:** Some folders above may not exist yet. Create them as needed when a feature requires it.
 
 ## Integrations
-- **Linear:** Team "Yō" — MCP connected via OAuth
+- **Linear:** Team "Kani" — MCP connected via OAuth
 - **GitHub:** github.com/ofrigamlieli-create/yo
 
 ## Reference Docs
@@ -65,20 +65,22 @@ For detailed specs, read these when working on related features:
 - `docs/roadmap.md` — current state, build order, what's next, what's deferred
 
 ## Current State
-**Audited April 2026.**
+**Audited May 2026.**
 
 | Component | Status | Notes |
 |-----------|--------|-------|
-| Manifest V3 setup | ✅ Working | v0.0.1, named "Yō" |
+| Manifest V3 setup | ✅ Working | v0.0.1, named "Kani" |
 | Smart trigger | ✅ Verified working | See detail below |
-| Small widget + TLDR | ❌ Not started | — |
+| Small widget + TLDR | ✅ Working | Shadow DOM widget, 3 tabs, drag/resize |
+| Supabase backend | ✅ Working | Edge Function `tldr`, usage_logs table |
+| Auth (Google sign-in) | ✅ Working | Google OAuth via Supabase, implicit flow |
+| Usage tracking | ✅ Working | Logged per request in usage_logs |
 | Large widget + content expansion | ❌ Not started | — |
 | Term Explorer | ❌ Not started | — |
 | Visual Explainer (diagrams) | ❌ Not started | — |
-| Supabase backend | ❌ Not started | — |
-| Auth (Google sign-in) | ❌ Not started | — |
-| Usage tracking | ❌ Not started | — |
 
-**Smart trigger detail:** `js/selection-detector.js` + `js/selection-listener.js` load at `document_idle` on every page. On selection change, debounces 200ms → checks ≥20 words → walks DOM to find deepest ancestor that is not hard-excluded UI (header/footer/nav/aside/button/input/contentEditable) and has <30% link/button density → deduplicates → fires `yo:selection-qualified` on `document`. Background service worker is an empty placeholder.
+**Smart trigger detail:** `js/selection-detector.js` + `js/selection-listener.js` load at `document_idle` on every page. On selection change, debounces 200ms → checks 20–400 words → rejects selections that span media elements (img/video/figure) → walks DOM to find deepest ancestor that is not hard-excluded UI, not taller than 2.5× viewport, has ≥10% text coverage, and has <30% link/button density → deduplicates → fires `kani:selection-qualified` on `document`. Trigger dismisses on any scroll event.
+
+**Widget detail:** `js/widget.js` + `js/widget-shadow.js` inject two shadow DOM hosts into `document.body`. On qualified selection → green rail + FAB appear (position:fixed, height capped at 40% viewport). Click rail → TLDR widget appears. Settings panel supports default style, size (S/M/L/custom), per-site blocklist, and 1-hour snooze.
 
 **Note:** Code currently lives in `js/` (not `src/` as spec'd above) — migration deferred to Feature 1.2 branch.

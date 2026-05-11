@@ -1,4 +1,4 @@
-# Yō — Roadmap
+# Kani — Roadmap
 
 > This file tracks what's been built, what's next, and what's deferred. Update after every completed feature. Read this at the start of any planning session (`/office-hours`, `/autoplan`).
 
@@ -8,8 +8,8 @@
 
 | Component | Status | Notes |
 |-----------|--------|-------|
-| Manifest V3 setup | ✅ Working | v0.0.1, named "Yō" |
-| Smart trigger (content zone detection) | ✅ Verified working | `js/selection-detector.js` + `js/selection-listener.js`. 20-word gate, DOM walk, link density <30%, dedup, fires `yo:selection-qualified`. Background service worker is empty placeholder. |
+| Manifest V3 setup | ✅ Working | v0.0.1, named "Kani" |
+| Smart trigger (content zone detection) | ✅ Verified working | `js/selection-detector.js` + `js/selection-listener.js`. 20-word gate, DOM walk, link density <30%, dedup, fires `kani:selection-qualified`. Background service worker is empty placeholder. |
 | Small widget + TLDR | ❌ Not started | — |
 | Large widget + content expansion | ❌ Not started | — |
 | Term Explorer | ❌ Not started | — |
@@ -43,18 +43,18 @@ Expand button on small widget. Full content zone highlighted in one color, indiv
 
 ---
 
-### Phase 2 — Comprehension Layer (the thing that makes Yō different)
+### Phase 2 — Comprehension Layer (the thing that makes Kani different)
 
 **2.1 — Term Explorer: auto-detection**
 When a TLDR is generated, Claude also returns a list of professional/technical terms detected in the text. These are highlighted within the TLDR. Clicking a term shows a contextual explanation — what the term means in this specific text, not a dictionary definition. Explanation appears inline in the widget (tooltip or expandable section).
 
 **2.2 — Term Explorer: user-triggered**
-User can also manually select any term on the page or in the TLDR. Yō explains it in context. Same UX as auto-detected terms.
+User can also manually select any term on the page or in the TLDR. Kani explains it in context. Same UX as auto-detected terms.
 
 **2.3 — Visual Explainer: concept extraction + diagram rendering**
 "Visualize" button available from any TLDR or term view. Opens a side panel or overlay. Claude extracts structured concept data (entities + relationships: causes, part-of, leads-to, contrasts-with). Frontend renders an interactive diagram using a JS library (D3, Mermaid, or React Flow — decide during planning). Claude picks the best diagram type (flowchart, mind map, timeline, comparison) or user can switch.
 
-**Done when Phase 2 is complete:** User gets TLDR + highlighted terms + contextual explanations + visual diagrams. Yō is now a reading comprehension tool, not just a summarizer.
+**Done when Phase 2 is complete:** User gets TLDR + highlighted terms + contextual explanations + visual diagrams. Kani is now a reading comprehension tool, not just a summarizer.
 
 ---
 
@@ -69,7 +69,7 @@ Every request logged (user_id, timestamp, feature, word count). Free trial perio
 **3.3 — Stripe integration**
 Payment page. Subscription management. Upgrade/downgrade flow.
 
-**Done when Phase 3 is complete:** Yō is a shippable product with auth, features, settings, trial, and payment. Ready for Chrome Web Store.
+**Done when Phase 3 is complete:** Kani is a shippable product with auth, features, settings, trial, and payment. Ready for Chrome Web Store.
 
 ---
 

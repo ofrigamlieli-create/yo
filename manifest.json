@@ -1,8 +1,11 @@
 {
   "manifest_version": 3,
-  "name": "Yō",
+  "name": "Kani",
+  "key": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAuhdMMDkFlldos1c5nVXUofGqtdBwRMeoEC3NFA1Pp1RR7j5/mDAUkvttiKX9tZyUuRvt9SzNRHg7VxHsvPsfHbZywEdhNc/PxXwqCT1YKNar9gh1oSsGuscjCy/z1zGRkmpeFpXUWTdUwu9ybrfhpNgXGbK6QThHtRhB+PcPTh7QKg/ckbkrw18mKkQ8fwWWJs3ch9ylTlFxRI5VPlbxNztRzIHqU9UhPDt6q2D0hLlE1ppmdI1LVTy0WQMRMAlk0oN0U4LjojTjlvGVcDy00iNEwuTUiGsOv+SAp5NM6KfRIz/2zrAd/arhk8hjOLHaCSKE6YMpqFAPiXa5zV2lYwIDAQAB",
   "version": "0.0.1",
   "description": "Understand what you read — instant TLDRs, term explanations, and concept diagrams.",
+  "permissions": ["storage", "identity"],
+  "host_permissions": ["https://otyvkolsfbipzmonpwzf.supabase.co/*"],
   "background": {
     "service_worker": "background.js"
   },
@@ -11,7 +14,13 @@
       "matches": ["<all_urls>"],
       "all_frames": false,
       "run_at": "document_idle",
-      "js": ["js/selection-detector.js", "js/selection-listener.js"]
+      "js": ["js/selection-detector.js", "js/selection-listener.js", "js/mock-tldr.js", "js/widget-shadow.js", "js/widget.js"]
+    }
+  ],
+  "web_accessible_resources": [
+    {
+      "resources": ["css/widget.css"],
+      "matches": ["<all_urls>"]
     }
   ]
 }
