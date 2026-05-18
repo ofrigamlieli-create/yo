@@ -5,7 +5,7 @@
 
   const SIZE_MAP = { small: {w:280,h:190}, medium: {w:320,h:230}, large: {w:400,h:300} };
 
-  let state = 'IDLE'; // 'IDLE' | 'TRIGGER' | 'TLDR' | 'SIGNIN' | 'SETTINGS'
+  let state = 'IDLE'; // 'IDLE' | 'TRIGGER' | 'EXPAND' | 'TLDR' | 'SIGNIN' | 'SETTINGS'
   let currentTab = 'short';
   let currentSize = 'medium';
   let currentCustomSize = {w:320, h:230};
@@ -17,6 +17,7 @@
   let triggerShadow = null;
   let tldrHostEl = null;
   let tldrShadow = null;
+  let expandOverlayContainer = null;
 
   // ── Storage helpers ──────────────────────────────────────────
 
@@ -155,7 +156,7 @@
     return `
       <div class="kani-trigger-container">
         <button class="kani-rail" id="kani-rail-btn" aria-label="Summarize selection"></button>
-        <button class="kani-fab" id="kani-fab-btn" aria-label="Explore content">要</button>
+        <button class="kani-fab" id="kani-fab-btn" aria-label="Explore content zone">肝</button>
       </div>
     `;
   }
@@ -175,7 +176,7 @@
         <div class="kani-header">
           <div class="kani-header-brand">
             <span class="kani-logo">Kani</span>
-            <span class="kani-kanji">要</span>
+            <span class="kani-kanji">肝</span>
             <span class="kani-tagline">The essential point</span>
           </div>
           <button class="kani-close-btn" id="kani-close-btn" aria-label="Close">×</button>
@@ -208,7 +209,7 @@
         <div class="kani-header">
           <div class="kani-header-brand">
             <span class="kani-logo">Kani</span>
-            <span class="kani-kanji">要</span>
+            <span class="kani-kanji">肝</span>
           </div>
           <button class="kani-close-btn" id="kani-close-btn">×</button>
         </div>
@@ -291,9 +292,10 @@
     if (el) el.innerHTML = contentHTML(tab);
   }
 
-  function requestTldr() {
-    const sel = window.getSelection();
-    const text = sel ? sel.toString().trim() : '';
+  function requestTldr(explicitText) {
+    const text = explicitText != null
+      ? explicitText
+      : (window.getSelection() ? window.getSelection().toString().trim() : '');
     chrome.runtime.sendMessage({ type: 'GET_TLDR', text }, result => {
       if (result.error === 'AUTH_REQUIRED') { showSignIn(); return; }
       if (result.error) { showError(); return; }
@@ -397,6 +399,92 @@
     });
   }
 
+  // ── Expand overlays ──────────────────────────────────────────
+
+  function removeExpandOverlays() {
+    if (expandOverlayContainer) {
+      expandOverlayContainer.remove();
+      expandOverlayContainer = null;
+    }
+  }
+
+  function createExpandOverlay(rect, isZone, onClick) {
+    const el = document.createElement('div');
+    const scrollX = window.scrollX || window.pageXOffset;
+    const scrollY = window.scrollY || window.pageYOffset;
+    el.style.cssText = [
+      'position:absolute',
+      'pointer-events:all',
+      'cursor:pointer',
+      'border-radius:3px',
+      'box-sizing:border-box',
+      'transition:background 0.12s',
+      `top:${rect.top + scrollY}px`,
+      `left:${rect.left + scrollX}px`,
+      `width:${rect.width}px`,
+      `height:${rect.height}px`,
+      isZone
+        ? 'background:rgba(61,157,166,0.10);border:2px solid rgba(61,157,166,0.35);z-index:2147483640;'
+        : 'background:rgba(61,157,166,0.0);border:1px solid rgba(61,157,166,0.0);z-index:2147483641;'
+    ].join(';');
+
+    if (!isZone) {
+      el.addEventListener('mouseenter', () => {
+        el.style.background = 'rgba(61,157,166,0.18)';
+        el.style.borderColor = 'rgba(61,157,166,0.5)';
+      });
+      el.addEventListener('mouseleave', () => {
+        el.style.background = 'rgba(61,157,166,0.0)';
+        el.style.borderColor = 'rgba(61,157,166,0.0)';
+      });
+    }
+
+    el.addEventListener('click', (e) => { e.stopPropagation(); onClick(); });
+    return el;
+  }
+
+  function showExpand() {
+    const sel = window.getSelection();
+    if (!sel || sel.rangeCount === 0) return;
+
+    const range = sel.getRangeAt(0);
+    const detector = window.KaniSelectionDetector;
+    const zoneEl = detector ? detector.findDeepestContentZone(range) : null;
+    if (!zoneEl) return;
+
+    state = 'EXPAND';
+    triggerHostEl.style.display = 'none';
+    unregisterScrollDismiss();
+
+    removeExpandOverlays();
+    expandOverlayContainer = document.createElement('div');
+    expandOverlayContainer.style.cssText = 'position:absolute;top:0;left:0;width:0;height:0;pointer-events:none;z-index:2147483640;';
+    document.body.appendChild(expandOverlayContainer);
+
+    const zoneRect = zoneEl.getBoundingClientRect();
+    const zoneOverlay = createExpandOverlay(zoneRect, true, () => {
+      removeExpandOverlays();
+      showTldrWithText(zoneEl.innerText || zoneEl.textContent || '');
+    });
+    expandOverlayContainer.appendChild(zoneOverlay);
+
+    const paragraphs = zoneEl.querySelectorAll('p');
+    const targets = paragraphs.length > 0 ? paragraphs : zoneEl.children;
+    Array.from(targets).forEach(para => {
+      const pRect = para.getBoundingClientRect();
+      if (pRect.height === 0 || pRect.width === 0) return;
+      const text = para.innerText || para.textContent || '';
+      if (!text.trim()) return;
+      const pOverlay = createExpandOverlay(pRect, false, () => {
+        removeExpandOverlays();
+        showTldrWithText(text);
+      });
+      expandOverlayContainer.appendChild(pOverlay);
+    });
+
+    registerDismissListeners();
+  }
+
   // ── State transitions ────────────────────────────────────────
 
   function showTrigger(rect) {
@@ -406,6 +494,7 @@
     triggerHostEl.style.display = 'block';
 
     triggerShadow.getElementById('kani-rail-btn').addEventListener('click', showTldr);
+    triggerShadow.getElementById('kani-fab-btn').addEventListener('click', showExpand);
 
     registerScrollDismiss();
     registerDismissListeners();
@@ -423,6 +512,25 @@
       if (!isSignedIn) { showSignIn(); return; }
       renderTldrWidget();
       requestTldr();
+    });
+  }
+
+  function showTldrWithText(text) {
+    const wasOpen = state === 'TLDR';
+    state = 'TLDR';
+    currentTab = currentTab || 'short';
+    tldrCache = null;
+
+    chrome.runtime.sendMessage({ type: 'GET_AUTH_STATE' }, ({ isSignedIn }) => {
+      if (!isSignedIn) { showSignIn(); return; }
+      if (!wasOpen) renderTldrWidget();
+      else {
+        const content = tldrShadow.getElementById('kani-content');
+        if (content) content.innerHTML = '<span class="kani-spinner"></span>';
+        const regenBtn = tldrShadow.getElementById('kani-regen-btn');
+        if (regenBtn) regenBtn.disabled = true;
+      }
+      requestTldr(text);
     });
   }
 
@@ -560,6 +668,7 @@
     unregisterScrollDismiss();
     triggerHostEl.style.display = 'none';
     tldrHostEl.style.display = 'none';
+    removeExpandOverlays();
     unregisterDismissListeners();
   }
 
